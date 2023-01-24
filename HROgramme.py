@@ -1,6 +1,7 @@
+from concurrent.futures import thread
 import numpy as np
 import matplotlib.pyplot as plt
-from copy import deepcopy
+import threading
 
 from EstimationParametres import parametres
 from Classes import Params, Matrices 
@@ -25,24 +26,41 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     print(f"taille de fenetre (samples) = {echParHorizon}")
     print(f'nbFenetres = {nbFenetres}')
     
-    for k in range(nbFenetres):
+    for k in range(nbFenetres, 2):
         
         if k %  10 == 0:    
             print(f'{k}/{nbFenetres}')
             
-        pointer = int(k*(echParHorizon - echParRecouvrement) + 1)
-        
-        if (pointer + echParHorizon) > signalLength:
+        pointer1 = int(k*(echParHorizon - echParRecouvrement) + 1)
+        pointer2 = int((k+1) * (echParHorizon - echParRecouvrement) +1)
+
+        if ((pointer1 + echParHorizon) > signalLength or 
+            (pointer2 + echParHorizon) > signalLength):
             print("sortie de boucle")
             break
         
-        fenetre: np.ndarray = deepcopy(signal[pointer : pointer + echParHorizon])
+
+        fenetre1: np.ndarray = signal[pointer1 : pointer1 + echParHorizon]
+        fenetre2: np.ndarray = signal[pointer2 : pointer2 + echParHorizon]
+
+        thread1 = threading.Thread(target = parametres, args = (fenetre1, params.samplerate, params.nbPoles))
+        thread2 = threading.Thread(target = parametres, args = (fenetre2, params.samplerate, params.nbPoles))
         
-        parametresEstimes = parametres(fenetre, params.samplerate, params.nbPoles)
-        matrices.F[:, k] = parametresEstimes[0]
-        matrices.B[:, k] = parametresEstimes[1] 
-        matrices.Ksi[:, k] = parametresEstimes[2]
-        matrices.J[:, k] = parametresEstimes[3]
+        parametresEstimes1 = thread1.start()
+        parametresEstimes2 = thread2.start()
+
+        thread1.join()
+        thread2.join()
+
+        matrices.F[:, k] = parametresEstimes1[0]
+        matrices.B[:, k] = parametresEstimes1[1] 
+        matrices.Ksi[:, k] = parametresEstimes1[2]
+        matrices.J[:, k] = parametresEstimes1[3]
+
+        matrices.F[:, k + 1] = parametresEstimes2[0]
+        matrices.B[:, k + 1] = parametresEstimes2[1] 
+        matrices.Ksi[:, k + 1] = parametresEstimes2[2]
+        matrices.J[:, k + 1] = parametresEstimes2[3]
         
     antialiasingfilter(matrices, params.samplerate)
         

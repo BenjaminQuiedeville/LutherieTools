@@ -48,7 +48,7 @@ def preset(preset: str,
 
     elif preset == "sample":
         
-        [params.samplerate, signal] = read(f"Clips audio/{signalPreset}.wav")
+        [params.samplerate, signal] = read(f"clips_audio/{signalPreset}.wav")
         
         if signal.ndim > 1:
             # on isole le premier canal
@@ -69,8 +69,11 @@ def preset(preset: str,
         
         [params.samplerate, signal] = read(argsDict["filepath"])
         
-        if signal.shape[0] > 1:
-            signal = signal[:,0]
+
+        # rectifier les dimensions du signal -> une seule ligne 
+
+        # if signal.shape[0] > 1:
+        #     signal = signal[:,0]
         
         params.horizon = argsDict["horizon"]
         params.overlap = argsDict["overlap"]

@@ -1,5 +1,5 @@
 {
-    "filepath": "Clips audio/Violon.wav",
+    "filepath": "clips_audio/Violon.wav",
     "horizon" : 0.05,
     "overlap" : 0,
     "nbPoles" : 100,

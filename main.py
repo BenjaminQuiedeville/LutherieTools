@@ -8,7 +8,7 @@ from HROgramme import HROgramme
 import Fonctions
 from Preset import preset
 from Affichage import affichage
-from stability import stability
+from Stability import stability
 
 
 

@@ -1,7 +1,7 @@
-from concurrent.futures import thread
 import numpy as np
 import matplotlib.pyplot as plt
 import threading
+from multiprocessing import Pool
 
 from EstimationParametres import parametres
 from Classes import Params, Matrices 
@@ -26,7 +26,7 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     print(f"taille de fenetre (samples) = {echParHorizon}")
     print(f'nbFenetres = {nbFenetres}')
     
-    for k in range(nbFenetres, 2):
+    for k in range(0, nbFenetres, 2):
         
         if k %  10 == 0:    
             print(f'{k}/{nbFenetres}')
@@ -43,24 +43,22 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
         fenetre1: np.ndarray = signal[pointer1 : pointer1 + echParHorizon]
         fenetre2: np.ndarray = signal[pointer2 : pointer2 + echParHorizon]
 
-        thread1 = threading.Thread(target = parametres, args = (fenetre1, params.samplerate, params.nbPoles))
-        thread2 = threading.Thread(target = parametres, args = (fenetre2, params.samplerate, params.nbPoles))
-        
-        parametresEstimes1 = thread1.start()
-        parametresEstimes2 = thread2.start()
+        parametresEstimes = []
 
-        thread1.join()
-        thread2.join()
 
-        matrices.F[:, k] = parametresEstimes1[0]
-        matrices.B[:, k] = parametresEstimes1[1] 
-        matrices.Ksi[:, k] = parametresEstimes1[2]
-        matrices.J[:, k] = parametresEstimes1[3]
+        with Pool() as pool:
+            results = pool.starmap(parametres, [(fenetre1, params.samplerate, params.nbPoles),
+                                                (fenetre2, params.samplerate, params.nbPoles)])
+            
+            for index, (f, b, ksi, J) in enumerate(results):
+                matrices.B[:, k + index] = f
+                matrices.F[:, k + index] = b
+                matrices.Ksi[:, k + index] = ksi
+                matrices.J[:, k + index] = J
 
-        matrices.F[:, k + 1] = parametresEstimes2[0]
-        matrices.B[:, k + 1] = parametresEstimes2[1] 
-        matrices.Ksi[:, k + 1] = parametresEstimes2[2]
-        matrices.J[:, k + 1] = parametresEstimes2[3]
+
+
+
         
     antialiasingfilter(matrices, params.samplerate)
         

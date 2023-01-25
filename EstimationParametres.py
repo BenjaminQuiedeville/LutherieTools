@@ -1,8 +1,6 @@
 import numpy as np
 from scipy.linalg import hankel, svd, pinv, eig
 
-import matplotlib.pyplot as plt
-
 
 def ESTER(W: np.ndarray, nbPolesMax: int) -> np.ndarray:
         
@@ -66,17 +64,7 @@ def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple[np.ndarray, np.ndarray]:
 def parametres(signal: np.ndarray, 
                samplerate: float,
                nbPoles: int
-               ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]: 
-    """Fonction qui appelle ESPRIT() puis formate les matrice f, ksi, b, J
-
-    Args:
-        signal (_type_): _description_
-        samplerate (_type_): _description_
-        nbPoles (_type_): _description_
-
-    Returns:
-        tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]: _description_
-    """    
+               ): 
 
     poles, J = ESPRIT(signal, 2*nbPoles)
     
@@ -99,10 +87,11 @@ def parametres(signal: np.ndarray,
     f = f[indexes]
     b = b[indexes]
     ksi = ksi[indexes]
-    
-    #DBGPLOT(signal,f, b)
 
+    
     return f, b, ksi, J
+    
+    
 
 
 def leastsquares(vecPoles: np.ndarray, signal: np.ndarray) -> np.ndarray:
@@ -121,25 +110,3 @@ def vandermonde(z: np.ndarray, N: int) -> np.ndarray:
     V[np.isnan(V)] = 0
     
     return V
-
-
-def DBGPLOT(signal, f, b):
-    fig, (ax1, ax2) = plt.subplots(2, 1)
-    
-    ax1.plot(f, 20*np.log10(b))
-    ax2.plot(signal)
-    return 
-    
-    
-def DBGIMSHOW(mat1, mat2, poles):
-    
-    plt.figure(1)
-    
-    plt.subplot(3,1,1)
-    plt.imshow(mat1)
-    
-    plt.subplot(3,1,2)
-    plt.imshow(mat2)
-    
-    plt.subplot(3,1,3)
-    plt.plot(poles)

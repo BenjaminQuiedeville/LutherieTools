@@ -1,7 +1,8 @@
 import numpy as np
 from scipy.linalg import hankel, svd, pinv, eig
 
-import matplotlib.pyplot as plt
+
+#import matplotlib.pyplot as plt
 
 
 def ESTER(W: np.ndarray, nbPolesMax: int) -> np.ndarray:
@@ -123,23 +124,23 @@ def vandermonde(z: np.ndarray, N: int) -> np.ndarray:
     return V
 
 
-def DBGPLOT(signal, f, b):
-    fig, (ax1, ax2) = plt.subplots(2, 1)
+# def DBGPLOT(signal, f, b):
+#     fig, (ax1, ax2) = plt.subplots(2, 1)
     
-    ax1.plot(f, 20*np.log10(b))
-    ax2.plot(signal)
-    return 
+#     ax1.plot(f, 20*np.log10(b))
+#     ax2.plot(signal)
+#     return 
     
     
-def DBGIMSHOW(mat1, mat2, poles):
+# def DBGIMSHOW(mat1, mat2, poles):
     
-    plt.figure(1)
+#     plt.figure(1)
     
-    plt.subplot(3,1,1)
-    plt.imshow(mat1)
+#     plt.subplot(3,1,1)
+#     plt.imshow(mat1)
     
-    plt.subplot(3,1,2)
-    plt.imshow(mat2)
+#     plt.subplot(3,1,2)
+#     plt.imshow(mat2)
     
-    plt.subplot(3,1,3)
-    plt.plot(poles)
+#     plt.subplot(3,1,3)
+#     plt.plot(poles)

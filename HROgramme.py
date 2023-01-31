@@ -6,6 +6,9 @@ from multiprocessing import Pool
 from EstimationParametres import parametres
 from Classes import Params, Matrices 
 
+# implémenter le parrallelisme avec numba plutot
+from numba import njit
+
 
 def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
 

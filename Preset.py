@@ -49,9 +49,8 @@ def preset(preset: str,
         
         [params.samplerate, signal] = read(f"clips_audio/{signalPreset}.wav")
         
-        if signal.ndim > 1:
-            # on isole le premier canal
-            signal = signal[:, 0]
+        # on isole le premier canal
+        if signal.ndim > 1 : signal = signal[:, 0]
             
         signal = np.array(signal, dtype = "float")
             
@@ -68,7 +67,6 @@ def preset(preset: str,
         
         [params.samplerate, signal] = read(argsDict["filepath"])
         
-
         # rectifier les dimensions du signal -> une seule ligne 
 
         # if signal.shape[0] > 1:

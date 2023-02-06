@@ -40,18 +40,20 @@ def export(matrices: Matrices, exportfolder: str) -> None:
         mkdir(exportdir)
 
     print(filePath)
-    json.dump(matricesDict, 
-            open(filePath, 'w', encoding='utf-8'), 
-            separators=(',', ':'), 
-            sort_keys=True, 
-            indent=4) ### this saves the array in .json format
+    json.dump(
+        matricesDict, 
+        open(filePath, 'w', encoding='utf-8'), 
+        separators=(',', ':'), 
+        sort_keys=True, 
+        indent=4
+        ) # this saves the array in .json format
 
     return
 
 
 def deNaNination(matrices: Matrices):
 
-    for index, frequence in np.ndenumerate(matrices.F):
+    for index, _ in np.ndenumerate(matrices.F):
 
         if matrices.BdBSeuil[index] == -200: 
             matrices.F[index] = -1000
@@ -69,9 +71,6 @@ def seuil(matrices: Matrices, seuil: float) -> np.ndarray:
     matrices.BdBSeuil = np.zeros_like(matrices.BdB)
     
     for (i,j), x in np.ndenumerate(matrices.BdB):
-        if x < seuil:
-            matrices.BdBSeuil[i,j] = -200
-        else:
-            matrices.BdBSeuil[i,j] = x
-            
+        matrices.BdBSeuil[i,j] = -200 if x < seuil else x
+
     return 

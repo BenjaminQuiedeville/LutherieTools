@@ -26,14 +26,11 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     
     for k in range(nbFenetres):
         
-        if k %  10 == 0:    
-            print(f'{k}/{nbFenetres}')
+        if k % 10 == 0 : print(f'{k}/{nbFenetres}') 
             
         pointer = int(k*(echParHorizon - echParRecouvrement) + 1)
         
-        if (pointer + echParHorizon) > signalLength:
-            print("sortie de boucle")
-            break
+        if (pointer + echParHorizon) > signalLength: break 
         
         fenetre: np.ndarray = deepcopy(signal[pointer : pointer + echParHorizon])
         

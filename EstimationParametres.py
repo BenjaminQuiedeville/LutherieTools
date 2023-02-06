@@ -106,18 +106,17 @@ def parametres(signal: np.ndarray,
     return f, b, ksi, J
 
 
+# Ve = vandermonde(vecPoles, signal.size)
+# b = pinv(Ve, check_finite=False) @ signal
 def leastsquares(vecPoles: np.ndarray, signal: np.ndarray) -> np.ndarray:
-    
-    Ve = vandermonde(vecPoles, signal.size)
-    b = pinv(Ve, check_finite=False) @ signal
-    
-    return b
+        
+    return pinv(vandermonde(vecPoles, signal.size), check_finite = False) @ signal
 
 
 def vandermonde(z: np.ndarray, N: int) -> np.ndarray:
 
-    n = np.arange(0, N)
-    V = np.exp( np.outer(n, np.log(z)) )
+    n = np.arange(0, N)[:, np.newaxis]
+    V = np.exp(n @ np.log(z[:,np.newaxis]).T)
 
     V[np.isnan(V)] = 0
     

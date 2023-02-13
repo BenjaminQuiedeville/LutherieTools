@@ -15,7 +15,7 @@ from typing import Literal
 # si l'algo réussit tout ca on admet qu'il fonctionne
 
 
-def signauxTest(duree: float,
+def creationSignauxTest(duree: float,
                 samplerate: int,
                 presetSignal: Literal["diapason",
                                       "cordeIdeale",

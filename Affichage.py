@@ -17,8 +17,9 @@ def affichage(
     ylimit = (0, 3500)
     
     fig, ax = plt.subplots(figsize = (8,6))
-
-    graph = ax.scatter(temps, frequences, s=15, c=color, cmap = "Blues")
+    
+    # cmap = "Blues"
+    graph = ax.scatter(temps, frequences, s=25, c=color, cmap = "Reds")
     ax.set_ylim(ylimit)
     ax.set_xlim(0, temps[0, -1])
     ax.set_title(f"{datatoplot} - {signalPreset} - {critere}")
@@ -27,5 +28,5 @@ def affichage(
 
     plt.colorbar(graph)
     ax.grid(True)
-#j'écris des trucs
-    return
+
+    if save: fig.savefig(f"/../{datatoplot}-{signalPreset}-{critere}.pdf")

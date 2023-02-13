@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 
-from EstimationParametres import parametres
+from EstimationParametres import parametersEstimation
 from Classes import Params, Matrices 
 
 
@@ -15,11 +15,7 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     
     nbFenetres: int = int(signalLength/(echParHorizon*(1 - params.overlap)))
     
-    matrices = Matrices()
-    matrices.F: np.ndarray =     np.zeros((params.nbPoles, nbFenetres))
-    matrices.Ksi: np.ndarray =   np.zeros((params.nbPoles, nbFenetres))
-    matrices.B: np.ndarray =     np.zeros((params.nbPoles, nbFenetres))
-    matrices.J: np.ndarray =     np.zeros((params.nbPoles, nbFenetres))    
+    matrices = Matrices(params.nbPoles, nbFenetres)
     
     print(f"taille de fenetre (samples) = {echParHorizon}")
     print(f'nbFenetres = {nbFenetres}')
@@ -34,25 +30,18 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
         
         fenetre: np.ndarray = deepcopy(signal[pointer : pointer + echParHorizon])
         
-        parametresEstimes = parametres(fenetre, params.samplerate, params.nbPoles)
-        matrices.F[:, k] = parametresEstimes[0]
-        matrices.B[:, k] = parametresEstimes[1] 
-        matrices.Ksi[:, k] = parametresEstimes[2]
-        matrices.J[:, k] = parametresEstimes[3]
+        parametresEstimes = parametersEstimation(fenetre, params.samplerate, params.nbPoles)
+        matrices.F[:, k] = parametresEstimes["f"]
+        matrices.B[:, k] = parametresEstimes["b"] 
+        matrices.Ksi[:, k] = parametresEstimes["ksi"]
+        matrices.J[k] = parametresEstimes["J"]
         
-    antialiasingfilter(matrices, params.samplerate)
+    antialiasingFilter(matrices, params.samplerate)
         
     return matrices
 
 
-def antialiasingfilter(matrices, samplerate):
-
-    # for (i,j), x in np.ndenumerate(matrices.F):
-    #     # Supprimer les frequences calculées au delà de F nyquist
-    #     if x > 0.5*samplerate:
-            
-    #         matrices.F[i,j] = np.NaN
-    #         matrices.B[i,j] = np.NaN
+def antialiasingFilter(matrices, samplerate):
 
     matrices.F[matrices.F > 0.5*samplerate] = np.nan
     matrices.B[matrices.F is np.nan] = np.nan

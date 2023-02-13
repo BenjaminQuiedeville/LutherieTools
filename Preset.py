@@ -1,13 +1,14 @@
 import numpy as np
 from scipy.io.wavfile import read
+from scipy.signal import decimate
 import json
 from typing import Literal
 from Classes import Params
 
-from SignauxTest import signauxTest
+from SignauxTest import creationSignauxTest
 
 
-def preset(preset: str,
+def preset(creationPreset: str,
            paramsPath: str,
            signalPreset: Literal["diapason",
                                  "cordeIdeale",
@@ -35,17 +36,17 @@ def preset(preset: str,
     
     params = Params()
 
-    if preset == "gen":
+    if creationPreset == "gen":
         
         params.samplerate = 48000
         duree = 2
-        signal = signauxTest(duree, params.samplerate, signalPreset)
+        signal = creationSignauxTest(duree, params.samplerate, signalPreset)
             
         params.horizon = 0.03
         params.overlap = 0.
         params.nbPoles = 50
 
-    elif preset == "sample":
+    elif creationPreset == "sample":
         
         [params.samplerate, signal] = read(f"clips_audio/{signalPreset}.wav")
         
@@ -59,9 +60,9 @@ def preset(preset: str,
         
         params.horizon = 0.05
         params.overlap = 0.
-        params.nbPoles = 100
+        params.nbPoles = 50
         
-    elif preset == 'json': 
+    elif creationPreset == 'json': 
         
         argsDict = json.load(open(paramsPath))
         
@@ -75,14 +76,17 @@ def preset(preset: str,
         params.horizon = argsDict["horizon"]
         params.overlap = argsDict["overlap"]
         params.nbPoles = argsDict["nbPoles"]
-        params.exportfolder = argsDict["exportfolder"]
+        params.exportfolder = "export_" + argsDict["exportfolder"]
 
         # Preparation 
         
         #exportFolder = argsDict["exportFolder"]
-        
-    exportfolder: str = "export_" + str(params.exportfolder)
     
+
     signal = signal/np.max(signal)
+
+    if params.samplerate > 40000: 
+        signal = decimate(signal, 4)
+        params.samplerate /= 4
         
-    return signal, params, exportfolder
+    return signal, params

@@ -1,4 +1,4 @@
-from SignauxTest import signauxTest
+from SignauxTest import creationSignauxTest
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -6,7 +6,7 @@ samplerate = 44100
 preset = "sinusAleatoires"
 NFFT = 8192
 
-t, signal = signauxTest(duree= 0.5,
+t, signal = creationSignauxTest(duree= 0.5,
                         samplerate=samplerate,
                         presetSignal="guitareSimulee")
 

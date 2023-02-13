@@ -1,3 +1,4 @@
+from copy import deepcopy
 import numpy as np
 import json
 from codecs import open
@@ -5,16 +6,6 @@ from os import mkdir, path
 
 from Classes import Matrices
 
-
-""""
-Ester : calculer la matrice U depuis ESPRIT
-puis en fonction d'une variable de choix d'algo d'estimation 
-appeler ESTER depuis ESPRIT en fournissant U
-
-retourner J en sortie de ESPRIT
-
-de manière générale : appeler l'algo d'estimation depuis ESPRIT
-""" 
 
 def export(matrices: Matrices, exportfolder: str) -> None:
 
@@ -51,26 +42,18 @@ def export(matrices: Matrices, exportfolder: str) -> None:
     return
 
 
-def deNaNination(matrices: Matrices):
+def deNaNination(matrices: Matrices) -> None:
 
-    for index, _ in np.ndenumerate(matrices.F):
-
-        if matrices.BdBSeuil[index] == -200: 
-            matrices.F[index] = -1000
-            
-        if matrices.Ksi[index] is np.NaN or matrices.Ksi[index] == np.Inf :            
-            matrices.Ksi[index] = 0
-        
-        matrices.Ksi[:, 0] = np.zeros_like(matrices.Ksi[:,0])
+    matrices.F[matrices.BdBSeuil == -200] = -1000
+    matrices.Ksi[matrices.Ksi is np.NaN or matrices.Ksi == np.Inf] = 0
+    matrices.Ksi[:, 0] = np.zeros_like(matrices.Ksi[:,0])
             
     return
 
 
-def seuil(matrices: Matrices, seuil: float) -> np.ndarray:
+def seuil(matrices: Matrices, seuil: float) -> None:
     
-    matrices.BdBSeuil = np.zeros_like(matrices.BdB)
-    
-    for (i,j), x in np.ndenumerate(matrices.BdB):
-        matrices.BdBSeuil[i,j] = -200 if x < seuil else x
+    matrices.BdBSeuil = deepcopy(matrices.BdB)
+    matrices.BdBSeuil[matrices.BdB < seuil] = -200
 
     return 

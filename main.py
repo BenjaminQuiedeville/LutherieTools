@@ -77,7 +77,7 @@ matrices.BdB = 20*np.log10(matrices.B)
 Fonctions.seuil(matrices, -70)
 
 #%% deuxième tour de post process
-deuxiemeTour: bool = True
+deuxiemeTour: bool = False
 
 if deuxiemeTour:
 

@@ -55,14 +55,15 @@ def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple[np.ndarray, np.ndarray]:
         )
     
     # Calcul du critère ESTER    
-    J = ESTER(W, int(nbPoles/2))
-    
+    #J = ESTER(W, int(nbPoles/2))
+    J = np.empty(int(nbPoles/2))
+
     return Z, J
 
 
 def parametersEstimation(
         signal: np.ndarray, 
-        samplerate: float, 
+        samplerate: int, 
         nbPoles: int
         ) -> dict:
 

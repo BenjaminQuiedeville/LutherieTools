@@ -25,7 +25,7 @@ def export(
     deNaNination(matrices)
 
     matricesDict: dict = {
-        "F" : matrices.F.tolist(),
+        "F" : matrices.FStable.tolist(),
         "B" : matrices.BdBSeuil.tolist(),
         "Ksi" : matrices.Ksi.tolist(),
         "T" : matrices.T.tolist()

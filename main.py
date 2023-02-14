@@ -89,7 +89,10 @@ if deuxiemeTour:
     timeDebut2 = perf_counter()
     matrices2 = HROgramme(signal, params)
     
-    matrices2.T = repmat(np.linspace(0, signalLength, matrices2.F.shape[1]), params.nbPoles, 1)
+    matrices2.T = repmat(
+        np.linspace(0, signalLength, matrices2.F.shape[1]), 
+        params.nbPoles, 
+        1)
 
     # Calcul des perfs
 

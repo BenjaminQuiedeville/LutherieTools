@@ -39,10 +39,10 @@ def preset(creationPreset: str,
     if creationPreset == "gen":
         
         params.samplerate = 48000
-        duree = 2
+        duree: float = 2.0
         signal = creationSignauxTest(duree, params.samplerate, signalPreset)
             
-        params.horizon = 0.03
+        params.horizon = 0.05
         params.overlap = 0.
         params.nbPoles = 50
 
@@ -52,9 +52,7 @@ def preset(creationPreset: str,
         
         # on isole le premier canal
         if signal.ndim > 1 : signal = signal[:, 0]
-            
-        signal = np.array(signal, dtype = "float")
-            
+                
         duree = signal.size/params.samplerate
         print(f'duree du signal = {duree}')
         
@@ -70,8 +68,7 @@ def preset(creationPreset: str,
         
         # rectifier les dimensions du signal -> une seule ligne 
 
-        # if signal.shape[0] > 1:
-        #     signal = signal[:,0]
+        if signal.ndim > 1 : signal = signal[:, 0]
         
         params.horizon = argsDict["horizon"]
         params.overlap = argsDict["overlap"]
@@ -86,7 +83,8 @@ def preset(creationPreset: str,
     signal = signal/np.max(signal)
 
     if params.samplerate > 40000: 
-        signal = decimate(signal, 4)
-        params.samplerate /= 4
+        downSamplingFactor = 4
+        signal = decimate(signal, downSamplingFactor)
+        params.samplerate /= downSamplingFactor
         
     return signal, params

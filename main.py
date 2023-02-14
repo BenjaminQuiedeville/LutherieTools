@@ -14,9 +14,13 @@ from Stability import stability
 # trouver des plages de variations pour les params d'étude
 
 
+# exporter un spectrogram pour afficher en fond 
+# dimension : 1500 pixels en largeur
+
+
 argvPreset: str = "sample"     
 # "gen","sample" ou "json" 
-signalPreset: str = "guitareSimulee"
+signalPreset: str = "oudoureduit"
 # Envelope, battements, sinusAleatoires, diapason, cordeIdeale
 # guitareSimulee, guitareCorps, guitareModesDoubles, guitareBruit
 
@@ -50,11 +54,10 @@ timeDebut = perf_counter()
 matrices = HROgramme(signal, params)
 
 matrices.T = repmat(
-    np.linspace(
-        0, 
-        signalLength, 
-        matrices.F.shape[1]
-        ), params.nbPoles, 1)
+    np.linspace(0, signalLength, matrices.F.shape[1]), 
+    params.nbPoles, 
+    1
+    )
 
 
 # Calcul des perfs
@@ -107,7 +110,12 @@ if deuxiemeTour:
 #%% Export en json des matrices 
 
 if argvPreset == "json": 
-    Fonctions.export(matrices, params.exportfolder)
+    Fonctions.export(
+        signal, 
+        matrices, 
+        params.samplerate, 
+        params.exportfolder
+        )
 
 #%% affichage
 
@@ -126,11 +134,11 @@ if afficher:
         "Amplitude (dB)", "Stabilité", False)
 
 
-
-    affichage(matrices2.F, matrices2.BdBSeuil, matrices2.T, signalPreset,
-        "Amplitude (dB)", "sans critere 2e tour", False)
-    
-    affichage(matrices2.FStable, matrices2.BdBSeuil, matrices2.T, signalPreset,
-        "Amplitude (dB)", "Stabilité 2e tour", False)
-    
+    if deuxiemeTour:
+        affichage(matrices2.F, matrices2.BdBSeuil, matrices2.T, signalPreset,
+            "Amplitude (dB)", "sans critere 2e tour", False)
+        
+        affichage(matrices2.FStable, matrices2.BdBSeuil, matrices2.T, signalPreset,
+            "Amplitude (dB)", "Stabilité 2e tour", False)
+        
     plt.show()

@@ -108,9 +108,9 @@ def main(argv: list) -> None:
         
         plt.close("all")
         
-        plt.figure()
-        plt.specgram(signal, NFFT = 8192*4, Fs = params.samplerate)
-        plt.ylim([0, 3500])
+        plt.figure(tight_layout = True)
+        plt.specgram(signal, NFFT = 4096, Fs = params.samplerate)
+        plt.ylim([0, 1000])
         
         affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset,
             "Amplitude (dB)", "sans critere", False)

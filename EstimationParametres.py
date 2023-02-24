@@ -79,9 +79,9 @@ def parametersEstimation(signal: np.ndarray,
     b = np.abs(b[np.imag(b) > 0])
     ksi = ksi[ksi > 0] 
     
-    f.resize(nbPoles)
-    b.resize(nbPoles)
-    ksi.resize(nbPoles)
+    np.resize(f, nbPoles)
+    np.resize(b, nbPoles)
+    np.resize(ksi, nbPoles)
     
     # tri des vecteurs de parameteres
     indexes = np.argsort(f)

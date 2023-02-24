@@ -16,7 +16,7 @@ def affichage(
     
     ylimit = (0, 3500)
     
-    fig, ax = plt.subplots(figsize = (8,6))
+    fig, ax = plt.subplots(figsize = (8,6), tight_layout = True)
     
     # cmap = "Blues"
     graph = ax.scatter(temps, frequences, s=25, c=color, cmap = "Reds")

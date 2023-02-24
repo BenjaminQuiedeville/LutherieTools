@@ -49,10 +49,8 @@ def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple[np.ndarray, np.ndarray]:
     Wup: np.ndarray = W[1: -1, :]
     Wdown: np.ndarray = W[0: -2, :]
     
-    Z: np.ndarray = eig(
-        pinv(Wdown, check_finite=False) @ Wup, 
-        right = False
-        )
+    Z: np.ndarray = eig(pinv(Wdown, check_finite=False) @ Wup, 
+                        right = False)
     
     # Calcul du critère ESTER    
     #J = ESTER(W, int(nbPoles/2))
@@ -61,11 +59,10 @@ def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple[np.ndarray, np.ndarray]:
     return Z, J
 
 
-def parametersEstimation(
-        signal: np.ndarray, 
-        samplerate: int, 
-        nbPoles: int
-        ) -> dict:
+def parametersEstimation(signal: np.ndarray, 
+                        samplerate: int, 
+                        nbPoles: int
+                        ) -> dict:
 
 
     poles, J = ESPRIT(signal, 2*nbPoles)
@@ -98,14 +95,13 @@ def parametersEstimation(
 
 
 def leastSquares(vecPoles: np.ndarray, signal: np.ndarray) -> np.ndarray:
-    return pinv(
-        vandermonde(vecPoles, signal.size), 
-        check_finite = False
-        ) @ signal
+    return pinv(vandermonde(vecPoles, signal.size), 
+                check_finite = False
+                ) @ signal
 
 
 def vandermonde(poles: np.ndarray, size: int) -> np.ndarray:
     return np.nan_to_num(
-        np.exp(
-            np.arange(0, size)[:, np.newaxis] @
-            np.log(poles[:, np.newaxis]).T))
+        np.exp(np.arange(0, size)[:, np.newaxis] 
+            @ np.log(poles[:, np.newaxis]).T)
+        )

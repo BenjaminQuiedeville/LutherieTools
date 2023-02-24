@@ -57,7 +57,7 @@ def preset(creationPreset: str,
         print(f'duree du signal = {duree}')
         
         params.horizon = 0.05
-        params.overlap = 0.
+        params.overlap = 0.15
         params.nbPoles = 50
         
     elif creationPreset == 'json': 

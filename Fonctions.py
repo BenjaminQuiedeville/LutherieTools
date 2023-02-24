@@ -9,12 +9,11 @@ from os import mkdir, path
 from Classes import Matrices
 
 
-def export(
-    signal: np.ndarray, 
-    matrices: Matrices, 
-    samplerate: int, 
-    exportFolder: str
-    ) -> None:
+def export(signal: np.ndarray, 
+        matrices: Matrices, 
+        samplerate: int, 
+        exportFolder: str
+        ) -> None:
 
     """
     pour matrices.F, si f == NaN : f = -1000
@@ -38,18 +37,11 @@ def export(
 
     print(f"données exportées dans : {exportDir}")
     # this saves the array in .json format
-    json.dump(
-        matricesDict, 
-        open(jsonFilePath, 'w', encoding='utf-8'), 
-        separators=(',', ':'), 
-        sort_keys=True, 
-        indent=4
-        ) 
+    json.dump(matricesDict, open(jsonFilePath, 'w', encoding='utf-8'), 
+            separators=(',', ':'), sort_keys=True, indent=4) 
 
-    exportSpectrogramme(
-        spectrogramme(signal, samplerate), 
-        exportDir
-        )
+    exportSpectrogramme(spectrogramme(signal, samplerate), 
+                        exportDir)
 
 
 def deNaNination(matrices: Matrices) -> None:
@@ -76,9 +68,6 @@ def spectrogramme(signal: np.ndarray, samplerate: int) -> Figure:
 
 def exportSpectrogramme(fig: Figure, exportFolder: str) -> None:
 
-    fig.savefig(
-        f"{exportFolder}/spectrogram.png", 
-        bbox_inches = "tight", 
-        dpi = 1500
-        )
+    fig.savefig(f"{exportFolder}/spectrogram.png", 
+                bbox_inches = "tight", dpi = 1500)
     plt.close(fig)

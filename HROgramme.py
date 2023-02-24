@@ -41,10 +41,8 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     return matrices
 
 
-def antialiasingFilter(matrices, samplerate):
+def antialiasingFilter(matrices: Matrices, samplerate: int) -> None:
 
     matrices.F[matrices.F > 0.5*samplerate] = np.nan
     matrices.B[matrices.F is np.nan] = np.nan
     matrices.Ksi[matrices.F is np.nan] = np.nan
-
-    return matrices

@@ -16,14 +16,14 @@ from typing import Literal
 
 
 def creationSignauxTest(duree: float,
-                samplerate: int,
-                presetSignal: Literal["diapason",
-                                      "cordeIdeale",
-                                      "guitareSimulee", 
-                                      "guitareCorps",
-                                      "guitareModesDoubles", 
-                                      "guitareBruit"]
-                ) -> np.ndarray:
+                        samplerate: int,
+                        presetSignal: Literal["diapason",
+                                            "cordeIdeale",
+                                            "guitareSimulee", 
+                                            "guitareCorps",
+                                            "guitareModesDoubles", 
+                                            "guitareBruit"]
+                        ) -> np.ndarray:
     """_summary_
     Cette fonction génère les différents signaux de test pour tester le fonctionnement
     de l'algorithme. 

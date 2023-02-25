@@ -108,15 +108,19 @@ def main(argv: list) -> None:
         
         plt.close("all")
         
-        plt.figure(tight_layout = True)
-        plt.specgram(signal, NFFT = 4096, Fs = params.samplerate)
+        plt.figure(tight_layout = True, figsize = (8, 6))
+        plt.specgram(signal, NFFT = 4096, 
+                     Fs = params.samplerate, noverlap= 2048)
         plt.ylim([0, 1000])
+        plt.ylabel("Fréquence (Hz)")
+        plt.xlabel("Temps (s)")
+        plt.colorbar(label = "Amplitude (dB)")
+
+        affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset, 
+                  "Amplitude (dB)", "sans critere", False)
         
-        affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset,
-            "Amplitude (dB)", "sans critere", False)
-        
-        affichage(matrices.FStable, matrices.BdBSeuil, matrices.T, signalPreset,
-            "Amplitude (dB)", "Stabilité", False)
+        affichage(matrices.FStable, matrices.BdBSeuil, matrices.T, signalPreset, 
+                  "Amplitude (dB)", "Stabilité", False)
             
         plt.show()
 

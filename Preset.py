@@ -3,8 +3,8 @@ from scipy.io.wavfile import read
 from scipy.signal import decimate
 import json
 from typing import Literal
-from Classes import Params
 
+from Classes import Params
 from SignauxTest import creationSignauxTest
 
 
@@ -50,12 +50,6 @@ def preset(creationPreset: str,
         
         [params.samplerate, signal] = read(f"clips_audio/{signalPreset}.wav")
         
-        # on isole le premier canal
-        if signal.ndim > 1 : signal = signal[:, 0]
-                
-        duree = signal.size/params.samplerate
-        print(f'duree du signal = {duree}')
-        
         params.horizon = 0.05
         params.overlap = 0.15
         params.nbPoles = 50
@@ -66,19 +60,21 @@ def preset(creationPreset: str,
         
         [params.samplerate, signal] = read(argsDict["filepath"])
         
-        # rectifier les dimensions du signal -> une seule ligne 
-
-        if signal.ndim > 1 : signal = signal[:, 0]
-        
         params.horizon = argsDict["horizon"]
         params.overlap = argsDict["overlap"]
         params.nbPoles = argsDict["nbPoles"]
         params.exportfolder = "export_" + argsDict["exportfolder"]
+            
 
-        # Preparation 
-        
-        #exportFolder = argsDict["exportFolder"]
-    
+    signal, params = preparation(signal, params)
+    print(f'duree du signal = {signal.size/params.samplerate}')
+
+    return signal, params
+
+
+def preparation(signal: np.ndarray, params: Params):
+
+    if signal.ndim > 1 : signal = signal[:, 0]
 
     signal = signal/np.max(signal)
 
@@ -86,5 +82,5 @@ def preset(creationPreset: str,
         downSamplingFactor = 4
         signal = decimate(signal, downSamplingFactor)
         params.samplerate /= downSamplingFactor
-        
+
     return signal, params

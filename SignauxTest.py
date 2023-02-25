@@ -12,7 +12,7 @@ from typing import Literal
 # (modes séparés par un epsilon de frequence pour faire des battements)
 # 6 (5) + bruit
 # 
-# si l'algo réussit tout ca on admet qu'il fonctionne
+# si l'algorithme réussit tout ca on admet qu'il fonctionne
 
 
 def creationSignauxTest(duree: float,
@@ -24,19 +24,6 @@ def creationSignauxTest(duree: float,
                                             "guitareModesDoubles", 
                                             "guitareBruit"]
                         ) -> np.ndarray:
-    """_summary_
-    Cette fonction génère les différents signaux de test pour tester le fonctionnement
-    de l'algorithme. 
-    
-
-    Args:
-        duree (float): duree du signal 
-        samplerate (int): fréquence d'échantillonnage 
-        signalPreset (str): "Envelope", "battements", "sinusAleatoires", "diapason", "cordeIdeale", "guitareSimulee", "guitareCorps", "guitareModesDobules", "guitareBruit"
-
-    Returns:
-        t, singal : vecteur temps, signal test
-    """    
     
     preDelay = 50 #ms
     prePad = np.zeros(int(0.001*50*samplerate))

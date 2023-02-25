@@ -71,3 +71,10 @@ def exportSpectrogramme(fig: Figure, exportFolder: str) -> None:
     fig.savefig(f"{exportFolder}/spectrogram.png", 
                 bbox_inches = "tight", dpi = 1500)
     plt.close(fig)
+
+
+def antialiasingFilter(matrices: Matrices, samplerate: int) -> None:
+
+    matrices.F[matrices.F > 0.5*samplerate] = np.nan
+    matrices.B[matrices.F is np.nan] = np.nan
+    matrices.Ksi[matrices.F is np.nan] = np.nan

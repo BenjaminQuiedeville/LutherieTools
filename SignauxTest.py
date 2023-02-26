@@ -36,8 +36,8 @@ def creationSignauxTest(duree: float,
     nHarmoniques:int = 40
     vecFrequences = np.arange(freqMiGrave, nHarmoniques*freqMiGrave, freqMiGrave)
     damping: float = 1E-2
-    bodydamping: float = 0.1
-    inharmonicdamping: float = 5*damping
+    bodyDamping: float = 0.1
+    inharmonicDamping: float = 5*damping
     modesCorps = [90, 200, 250]
     inharmonicCoefficient: float = 1E-4
 
@@ -70,7 +70,7 @@ def creationSignauxTest(duree: float,
             signal += np.sin(2*np.pi*freq*t) * np.exp(-damping*freq*t)
 
         for freq in modesCorps:
-            signal += np.sin(2*np.pi*freq*t) * np.exp(-bodydamping*freq*t)
+            signal += np.sin(2*np.pi*freq*t) * np.exp(-bodyDamping*freq*t)
 
 
     # guitare simulee avec les modes inharmoniques
@@ -79,7 +79,7 @@ def creationSignauxTest(duree: float,
 
         for freq in vecFrequences:
             signal += np.sin(2*np.pi*freq*t) * np.exp(-damping*freq*t)
-            signal += np.sin(2*np.pi*freq*np.sqrt(1 + inharmonicCoefficient**2)*t) * np.exp(-inharmonicdamping*freq*t)
+            signal += np.sin(2*np.pi*freq*np.sqrt(1 + inharmonicCoefficient**2)*t) * np.exp(-inharmonicDamping*freq*t)
 
         # for freq in modesCorps:
         #     signal += np.sin(2*np.pi*freq*t) * np.exp(-bodydamping*freq*t)
@@ -91,10 +91,10 @@ def creationSignauxTest(duree: float,
 
         for freq in vecFrequences:
             signal += np.sin(2*np.pi*freq*t) * np.exp(-damping*freq*t)
-            signal += np.sin(2*np.pi*freq * np.sqrt(1 + inharmonicCoefficient**2) * t) * np.exp(-inharmonicdamping*freq*t)
+            signal += np.sin(2*np.pi*freq * np.sqrt(1 + inharmonicCoefficient**2) * t) * np.exp(-inharmonicDamping*freq*t)
 
         for freq in modesCorps:
-            signal += np.sin(2*np.pi*freq*t) * np.exp(-bodydamping*freq*t)
+            signal += np.sin(2*np.pi*freq*t) * np.exp(-bodyDamping*freq*t)
 
         SNR: int = -10
         SNRLin = 10**(SNR/20)

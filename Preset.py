@@ -67,7 +67,7 @@ def preset(creationPreset: str,
             
 
     signal, params = preparation(signal, params)
-    print(f'duree du signal = {signal.size/params.samplerate}')
+    print(f'duree du signal = {signal.size/params.samplerate :.2f}')
 
     return signal, params
 
@@ -79,8 +79,8 @@ def preparation(signal: np.ndarray, params: Params):
     signal = signal/np.max(signal)
 
     if params.samplerate > 40000: 
-        downSamplingFactor = 4
+        downSamplingFactor:int = 4
         signal = decimate(signal, downSamplingFactor)
-        params.samplerate /= downSamplingFactor
+        params.samplerate //= downSamplingFactor
 
     return signal, params

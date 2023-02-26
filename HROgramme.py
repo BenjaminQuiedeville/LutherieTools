@@ -34,7 +34,8 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
         
         window: np.ndarray = deepcopy(signal[pointer : pointer + samplesPerHorizon])
         
-        parametresEstimes = parametersEstimation(window, params.samplerate, params.nbPoles)
+        parametresEstimes = parametersEstimation(window, params.samplerate, 
+                                                 params.nbPoles)
         matrices.F[:, k] = parametresEstimes["f"]
         matrices.B[:, k] = parametresEstimes["b"] 
         matrices.Ksi[:, k] = parametresEstimes["ksi"]
@@ -53,6 +54,6 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
 
     # seuillage de la matrice des B
     matrices.BdB = 20*np.log10(matrices.B)
-    Fonctions.seuil(matrices, -80)
+    Fonctions.seuil(matrices, -70)
 
     return matrices

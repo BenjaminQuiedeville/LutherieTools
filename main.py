@@ -17,7 +17,7 @@ def main(argv: list) -> None:
 
     argvPreset: str = "sample"     
     # "gen","sample" ou "json" 
-    signalPreset: str = "guitareBruit"
+    signalPreset: str = "uduPropre"
     # Envelope, battements, sinusAleatoires, diapason, cordeIdeale
     # guitareSimulee, guitareCorps, guitareModesDoubles, guitareBruit
 
@@ -85,12 +85,16 @@ def main(argv: list) -> None:
         plt.xlabel("Temps (s)")
         plt.colorbar(label = "Amplitude (dB)")
 
-        affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset, 
-                  "Amplitude (dB)", "sans critere", False)
+        # affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset, 
+        #           "Amplitude (dB)", "sans critere", False)
         
-        affichage(matrices.FStable, matrices.BdBSeuil, matrices.T, signalPreset, 
-                  "Amplitude (dB)", "Stabilité", False)
-            
+        # affichage(matrices.FStable, matrices.BdBSeuil, matrices.T, signalPreset, 
+        #           "Amplitude (dB)", "Stabilité", False)
+        
+        affichage(matrices.FStable, matrices.BdBSeuil, matrices.T,signalPreset, 
+                  "Echantillon de Udu anaysé par la méthode ESPRIT", "", False)
+
+
         plt.show(block = True)
 
 

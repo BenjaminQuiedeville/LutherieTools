@@ -1,24 +1,26 @@
 import numpy as np
-from copy import copy
+from copy import deepcopy
 
-def stability(inMatrix: np.ndarray, numcolstoverify: int, tolerance: float) -> np.ndarray:
+def stability(inMatrix: np.ndarray, numcolstoverify: int, tolerancePourcent: float) -> np.ndarray:
     
     modesValides = []
     (numrows, numcols) = inMatrix.shape
-    outMatrix = copy(inMatrix)
+    outMatrix = deepcopy(inMatrix)
 
-    for (row, col), mode in np.ndenumerate(inMatrix):
+    for (rowIndex, colIndex), mode in np.ndenumerate(inMatrix):
+
+        tolerance: float = mode * tolerancePourcent
 
         if mode in modesValides: 
             continue 
-
-        elif ((numcols - col) > numcolstoverify and 
-            isValid(mode, inMatrix[:, (col+1):numcolstoverify], tolerance)):
+        
+        elif ((numcols - colIndex) > numcolstoverify 
+        and isValid(mode, inMatrix[:, (colIndex+1):numcolstoverify], tolerance)):
 
             modesValides.append(mode)
             
         else:
-            outMatrix[row, col] = np.nan
+            outMatrix[rowIndex, colIndex] = np.nan
 
     return outMatrix
 

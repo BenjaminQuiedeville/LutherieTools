@@ -53,6 +53,8 @@ def deNaNination(matrices: Matrices) -> None:
 def seuil(matrices: Matrices, seuil: float) -> None:
     matrices.BdBSeuil = deepcopy(matrices.BdB)
     matrices.BdBSeuil[matrices.BdB < seuil] = -200
+    matrices.F[matrices.BdBSeuil == -200] = np.NaN
+
 
 
 def spectrogramme(signal: np.ndarray, samplerate: int) -> Figure:

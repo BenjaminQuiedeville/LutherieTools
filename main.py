@@ -8,6 +8,8 @@ import Fonctions
 from Preset import preset
 from Affichage import affichage
 
+# VERSION DE PYTHON > 3.9.2
+
 # tester les signaux tests
 # trouver des plages de variations pour les params d'étude
 # exporter un spectrogram pour afficher en fond 
@@ -15,9 +17,9 @@ from Affichage import affichage
 
 def main(argv: list) -> None:
 
-    argvPreset: str = "sample"     
+    argvPreset: str = "sample"
     # "gen","sample" ou "json" 
-    signalPreset: str = "uduPropre"
+    signalPreset: str = "guitareCorps"
     # Envelope, battements, sinusAleatoires, diapason, cordeIdeale
     # guitareSimulee, guitareCorps, guitareModesDoubles, guitareBruit
 
@@ -85,16 +87,13 @@ def main(argv: list) -> None:
         plt.xlabel("Temps (s)")
         plt.colorbar(label = "Amplitude (dB)")
 
-        # affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset, 
-        #           "Amplitude (dB)", "sans critere", False)
+        affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset, 
+                  "Amplitude (dB)", "sans critere", False)
         
-        # affichage(matrices.FStable, matrices.BdBSeuil, matrices.T, signalPreset, 
-        #           "Amplitude (dB)", "Stabilité", False)
+        affichage(matrices.FStable, matrices.BdBSeuil, matrices.T, signalPreset, 
+                  "Amplitude (dB)", "Stabilité", False)
         
-        affichage(matrices.FStable, matrices.BdBSeuil, matrices.T,signalPreset, 
-                  "Echantillon de Udu anaysé par la méthode ESPRIT", "", False)
-
-
+    
         plt.show(block = True)
 
 

@@ -1,12 +1,12 @@
 import numpy as np
-from copy import copy
+from copy import deepcopy
 
 def stability(inMatrix: np.ndarray, numcolstoverify: int, 
             tolerancePourcent: float) -> np.ndarray:
     
     modesValides = []
     numcols = inMatrix.shape[1]
-    outMatrix = copy(inMatrix)
+    outMatrix = deepcopy(inMatrix)
 
     for (rowIndex, colIndex), mode in np.ndenumerate(inMatrix):
 

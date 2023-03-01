@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -51,7 +51,7 @@ def deNaNination(matrices: Matrices) -> None:
             
 
 def seuil(matrices: Matrices, seuil: float) -> None:
-    matrices.BSeuil = copy(matrices.B)
+    matrices.BSeuil = deepcopy(matrices.B)
     matrices.BSeuil[matrices.B < (np.nanmax(matrices.B) + seuil)] = np.NaN
     matrices.F[np.isnan(matrices.BSeuil)] = np.NaN
 

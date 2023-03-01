@@ -29,4 +29,4 @@ for signalPreset, titre in zip(listPreset, listTitres):
                 titre, "", True)
 
 
-plt.show(block = True)
+# plt.show(block = True)

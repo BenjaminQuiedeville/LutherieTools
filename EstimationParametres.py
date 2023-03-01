@@ -2,9 +2,6 @@ import numpy as np
 from scipy.linalg import hankel, svd, pinv, eig
 
 
-#import matplotlib.pyplot as plt
-
-
 def ESTER(W: np.ndarray, nbPolesMax: int) -> np.ndarray:
         
     J: np.ndarray = np.zeros(nbPolesMax)
@@ -72,11 +69,12 @@ def parametersEstimation(signal: np.ndarray,
     # ksi : amortissement 
 
     f: np.ndarray = np.angle(poles) * samplerate/(2*np.pi)
+    f[f == 0.] = np.nan
     b: np.ndarray = leastSquares(poles, signal)    
     ksi: np.ndarray = (-np.log(abs(poles))*samplerate)/(2*np.pi*f)
     
     f = f[f > 0] 
-    b = np.abs(b[np.imag(b) > 0])
+    b = np.abs(b[b.imag > 0])
     ksi = ksi[ksi > 0] 
     
     f = np.resize(f, nbPoles)

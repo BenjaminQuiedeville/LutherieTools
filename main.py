@@ -15,11 +15,11 @@ from Affichage import affichage
 # exporter un spectrogram pour afficher en fond 
 # dimension : 1500 pixels en largeur
 
-def main(argv: list) -> None:
+def main(argv: list[str]) -> None:
 
     argvPreset: str = "sample"
     # "gen","sample" ou "json" 
-    signalPreset: str = "guitareSimulee"
+    signalPreset: str = "udupropre"
     # Envelope, battements, sinusAleatoires, diapason, cordeIdeale
     # guitareSimulee, guitareCorps, guitareModesDoubles, guitareBruit
 

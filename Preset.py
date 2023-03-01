@@ -51,7 +51,7 @@ def preset(creationPreset: str,
         [params.samplerate, signal] = read(f"clips_audio/{signalPreset}.wav")
         
         params.horizon = 0.05
-        params.overlap = 0.
+        params.overlap = 0.50
         params.nbPoles = 50
         
     elif creationPreset == 'json': 

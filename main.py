@@ -19,7 +19,7 @@ def main(argv: list) -> None:
 
     argvPreset: str = "sample"
     # "gen","sample" ou "json" 
-    signalPreset: str = "guitareCorps"
+    signalPreset: str = "guitareSimulee"
     # Envelope, battements, sinusAleatoires, diapason, cordeIdeale
     # guitareSimulee, guitareCorps, guitareModesDoubles, guitareBruit
 
@@ -41,7 +41,7 @@ def main(argv: list) -> None:
     print(f"overlap = {params.overlap}")
     print(f"nbPoles = {params.nbPoles}")
 
-    #%% Calcul du HROgramme
+    # Calcul du HROgramme
     timeDebut = perf_counter()
     matrices = HROgramme(signal, params)
 
@@ -52,7 +52,7 @@ def main(argv: list) -> None:
     print(f"temps d'execution du 1er tour = {timeTotal}")
 
 
-    #%% deuxième tour de post process
+    # deuxième tour de post process
     deuxiemeTour: bool = False
     # Le deuxième tour basé sur les résultats de ESTER est désactivé
     # les résultats étant non satisfaisants, on désactive le 2e tour 
@@ -69,28 +69,28 @@ def main(argv: list) -> None:
         timeTotal2: float = timeFin2 - timeDebut2
         print(f"temps d'execution du 2e tour = {timeTotal2}")
 
-    #%% Export en json des matrices 
+    # Export en json des matrices 
     if argvPreset == "json": 
         Fonctions.export(signal, matrices, params.samplerate, 
                         params.exportfolder)
 
-    #%% affichage
+    # affichage
     if afficher:
         
         plt.close("all")
         
-        plt.figure(tight_layout = True, figsize = (8, 6))
-        plt.specgram(signal, NFFT = 4096, 
-                     Fs = params.samplerate, noverlap= 2048)
-        plt.ylim([0, 1000])
-        plt.ylabel("Fréquence (Hz)")
-        plt.xlabel("Temps (s)")
-        plt.colorbar(label = "Amplitude (dB)")
+        # plt.figure(tight_layout = True, figsize = (8, 6))
+        # plt.specgram(signal, NFFT = 4096, 
+        #              Fs = params.samplerate, noverlap= 2048)
+        # plt.ylim([0, 1000])
+        # plt.ylabel("Fréquence (Hz)")
+        # plt.xlabel("Temps (s)")
+        # plt.colorbar(label = "Amplitude (dB)")
 
-        affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset, 
+        affichage(matrices.F, matrices.BSeuil, matrices.T, signalPreset, 
                   "Amplitude (dB)", "sans critere", False)
         
-        affichage(matrices.FStable, matrices.BdBSeuil, matrices.T, signalPreset, 
+        affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
                   "Amplitude (dB)", "Stabilité", False)
         
     

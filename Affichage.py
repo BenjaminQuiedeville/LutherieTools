@@ -17,7 +17,6 @@ def affichage(frequences: np.ndarray,
     
     fig, ax = plt.subplots(figsize = (8,6), tight_layout = True)
     
-    # cmap = "Blues"
     graph = ax.scatter(temps, frequences, s=25, c=color, cmap = "Reds")
     ax.set_ylim(ylimit)
     ax.set_xlim(0, temps[0, -1])

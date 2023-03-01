@@ -1,15 +1,15 @@
 import numpy as np
-from copy import deepcopy
+from copy import deepcopy, copy
 
 def stability(inMatrix: np.ndarray, numcolstoverify: int, tolerancePourcent: float) -> np.ndarray:
     
     modesValides = []
     (numrows, numcols) = inMatrix.shape
-    outMatrix = deepcopy(inMatrix)
+    outMatrix = copy(inMatrix)
 
     for (rowIndex, colIndex), mode in np.ndenumerate(inMatrix):
 
-        tolerance: float = mode * tolerancePourcent
+        tolerance: float = tolerancePourcent #* mode
 
         if mode in modesValides: 
             continue 

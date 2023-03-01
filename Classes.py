@@ -18,8 +18,7 @@ class Matrices:
         self.FStable: np.ndarray = np.array([])        
 
         self.B: np.ndarray = np.zeros((nbPoles, nbFenetres))
-        self.BdB: np.ndarray = np.array([])
-        self.BdBSeuil: np.ndarray = np.array([])
+        self.BSeuil: np.ndarray = np.array([])
 
         self.Ksi: np.ndarray = np.zeros((nbPoles, nbFenetres))
         self.J: np.ndarray = np.zeros(nbFenetres)    

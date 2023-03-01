@@ -16,3 +16,5 @@ __pycache__/SignauxTest.cpython-39.pyc
 __pycache__/Stability.cpython-39.pyc
 *.pyc
 *.pyc
+*.xml
+*.iml

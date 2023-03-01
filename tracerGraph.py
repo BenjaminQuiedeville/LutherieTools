@@ -25,7 +25,7 @@ for signalPreset, titre in zip(listPreset, listTitres):
         
     plt.close("all")
     
-    affichage(matrices.F, matrices.BdBSeuil, matrices.T, signalPreset, 
+    affichage(matrices.F, matrices.BSeuil, matrices.T, signalPreset, 
                 titre, "", True)
 
 

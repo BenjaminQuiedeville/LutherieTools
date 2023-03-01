@@ -1,4 +1,4 @@
-from copy import deepcopy
+from copy import deepcopy, copy
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -25,7 +25,7 @@ def export(signal: np.ndarray,
 
     matricesDict: dict = {
         "F" : matrices.FStable.tolist(),
-        "B" : matrices.BdBSeuil.tolist(),
+        "B" : matrices.BSeuil.tolist(),
         "Ksi" : matrices.Ksi.tolist(),
         "T" : matrices.T.tolist()
     }
@@ -45,15 +45,15 @@ def export(signal: np.ndarray,
 
 
 def deNaNination(matrices: Matrices) -> None:
-    matrices.F[matrices.BdBSeuil == -200] = -1000
+    matrices.F[matrices.BSeuil == -200] = -1000
     matrices.Ksi[matrices.Ksi is np.NaN or matrices.Ksi == np.Inf] = 0
     matrices.Ksi[:, 0] = np.zeros_like(matrices.Ksi[:,0])
             
 
 def seuil(matrices: Matrices, seuil: float) -> None:
-    matrices.BdBSeuil = deepcopy(matrices.BdB)
-    matrices.BdBSeuil[matrices.BdB < seuil] = -200
-    matrices.F[matrices.BdBSeuil == -200] = np.NaN
+    matrices.BSeuil = copy(matrices.B)
+    matrices.BSeuil[matrices.B < (np.nanmax(matrices.B) + seuil)] = np.NaN
+    matrices.F[matrices.BSeuil is np.NaN] = np.NaN
 
 
 

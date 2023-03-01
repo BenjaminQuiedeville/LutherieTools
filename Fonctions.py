@@ -1,4 +1,4 @@
-from copy import deepcopy, copy
+from copy import copy
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -46,14 +46,14 @@ def export(signal: np.ndarray,
 
 def deNaNination(matrices: Matrices) -> None:
     matrices.F[matrices.BSeuil == -200] = -1000
-    matrices.Ksi[matrices.Ksi is np.NaN or matrices.Ksi == np.Inf] = 0
+    matrices.Ksi[np.isnan(matrices.Ksi) or matrices.Ksi == np.Inf] = 0
     matrices.Ksi[:, 0] = np.zeros_like(matrices.Ksi[:,0])
             
 
 def seuil(matrices: Matrices, seuil: float) -> None:
     matrices.BSeuil = copy(matrices.B)
     matrices.BSeuil[matrices.B < (np.nanmax(matrices.B) + seuil)] = np.NaN
-    matrices.F[matrices.BSeuil is np.NaN] = np.NaN
+    matrices.F[np.isnan(matrices.BSeuil)] = np.NaN
 
 
 
@@ -78,5 +78,9 @@ def exportSpectrogramme(fig: Figure, exportFolder: str) -> None:
 def antialiasingFilter(matrices: Matrices, samplerate: int) -> None:
 
     matrices.F[matrices.F > 0.5*samplerate] = np.nan
-    matrices.B[matrices.F is np.nan] = np.nan
-    matrices.Ksi[matrices.F is np.nan] = np.nan
+    matrices.B[np.isnan(matrices.F)] = np.nan
+    matrices.Ksi[np.isnan(matrices.F)] = np.nan
+
+
+def countnan(array: np.ndarray) -> int:
+    return np.isnan(array).sum()

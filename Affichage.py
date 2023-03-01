@@ -13,7 +13,7 @@ def affichage(frequences: np.ndarray,
     
     color[color == -200] = np.nan
     
-    ylimit = (0, 3500)
+    ylimit = (0, 1000)
     
     fig, ax = plt.subplots(figsize = (8,6), tight_layout = True)
     
@@ -27,4 +27,5 @@ def affichage(frequences: np.ndarray,
     plt.colorbar(graph, label ="Amplitude (dB)")
     ax.grid(True)
 
-    if save: fig.savefig(f"/../{datatoplot}-{signalPreset}-{critere}.pdf")
+    # if save: fig.savefig(f"/../{datatoplot}-{signalPreset}-{critere}.pdf")
+    if save: fig.savefig(f"{signalPreset}.pdf")

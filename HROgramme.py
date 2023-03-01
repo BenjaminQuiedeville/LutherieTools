@@ -46,16 +46,24 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     matrices.T = np.tile(np.linspace(0, signalLengthInSeconds, matrices.F.shape[1]), 
                         (params.nbPoles, 1))
     
-    # # seuillage de la matrice des B
-    # matrices.B = 20*np.log10(matrices.B)
-    # Fonctions.seuil(matrices, -70)
+    # seuillage de la matrice des B
+    matrices.B[matrices.B <= 0] = np.nan
+    matrices.B = 20*np.log10(matrices.B)
+    Fonctions.seuil(matrices, -40)
 
-    # conditionnement
+
     # algorithme de stabilité
-    toleranceStabilite = 1 # pourcentage
+    toleranceStabilite = 0.01 
     numColsToVerify = 3
+    
+    nbNaNBefore = Fonctions.countnan(matrices.F)
+    print(f"nombre de nan avant la stabilité : {nbNaNBefore}")
+
     matrices.FStable = stability(matrices.F, numColsToVerify, 
                                 toleranceStabilite)
+
+    nbNaNAfter = Fonctions.countnan(matrices.FStable)
+    print(f"nombre de nan apres la stabilité : {nbNaNAfter} soit {nbNaNAfter-nbNaNBefore} de plus")
 
 
     return matrices

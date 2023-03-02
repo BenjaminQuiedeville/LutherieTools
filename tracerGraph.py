@@ -21,11 +21,10 @@ for signalPreset, titre in zip(listPreset, listTitres):
 
     print(f"preset : {signalPreset}")
     matrices = HROgramme(signal, params)
-    
-        
+   
     plt.close("all")
-    
-    affichage(matrices.F, matrices.BSeuil, matrices.T, signalPreset, 
+
+    affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
                 titre, "", True)
 
 

@@ -18,3 +18,4 @@ __pycache__/Stability.cpython-39.pyc
 *.pyc
 *.xml
 *.iml
+.vscode/settings.json

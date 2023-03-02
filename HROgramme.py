@@ -49,7 +49,7 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     # seuillage de la matrice des B
     matrices.B[matrices.B <= 0] = np.nan
     matrices.B = 20*np.log10(matrices.B)
-    Fonctions.seuil(matrices, -40)
+    Fonctions.seuil(matrices, -20)
 
 
     # algorithme de stabilité

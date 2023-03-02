@@ -19,7 +19,7 @@ def main(argv: list[str]) -> None:
 
     argvPreset: str = "sample"
     # "gen","sample" ou "json" 
-    signalPreset: str = "guitareCorps"
+    signalPreset: str = "uduDiapo"
     # Envelope, battements, sinusAleatoires, diapason, cordeIdeale
     # guitareSimulee, guitareCorps, guitareModesDoubles, guitareBruit
 
@@ -78,14 +78,14 @@ def main(argv: list[str]) -> None:
     if afficher:
         
         plt.close("all")
-        
-        # plt.figure(tight_layout = True, figsize = (8, 6))
-        # plt.specgram(signal, NFFT = 4096, 
-        #              Fs = params.samplerate, noverlap= 2048)
-        # plt.ylim([0, 1000])
-        # plt.ylabel("Fréquence (Hz)")
-        # plt.xlabel("Temps (s)")
-        # plt.colorbar(label = "Amplitude (dB)")
+        NFFT: int = 4096
+        plt.figure(tight_layout = True, figsize = (8, 6))
+        plt.specgram(signal, NFFT = NFFT, 
+                     Fs = params.samplerate, noverlap = NFFT // 2)
+        plt.ylim([0, 1000])
+        plt.ylabel("Fréquence (Hz)")
+        plt.xlabel("Temps (s)")
+        plt.colorbar(label = "Amplitude (dB)")
 
         affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
                   "Amplitude (dB)", "sans critere", False)

@@ -10,6 +10,7 @@ def affichage(frequences: np.ndarray,
 			critere: str,
 			save: bool
 			) -> None:
+    """Fonction d'affichage des HROGrammes calculés"""
     
     color[color == -200] = np.nan
     
@@ -20,7 +21,7 @@ def affichage(frequences: np.ndarray,
     graph = ax.scatter(temps, frequences, s=25, c=color, cmap = "Reds")
     ax.set_ylim(ylimit)
     ax.set_xlim(0, temps[0, -1])
-    # ax.set_title(f"{datatoplot} - {signalPreset} - {critere}")
+    ax.set_title(f"{datatoplot} - {signalPreset} - {critere}")
     # ax.set_title("HROgramme d'un échantillon de Udu")
     ax.set_xlabel("Temps (s)")
     ax.set_ylabel("Fréquence (Hz)")
@@ -28,6 +29,6 @@ def affichage(frequences: np.ndarray,
     plt.colorbar(graph, label ="Amplitude (dB)")
     ax.grid(True)
 
-    # if save: fig.savefig(f"/../{datatoplot}-{signalPreset}-{critere}.pdf")
+    if save: fig.savefig(f"/../{datatoplot}-{signalPreset}-{critere}.pdf")
     # if save: fig.savefig(f"{signalPreset}.pdf")
-    if save: fig.savefig(f"{signalPreset}.png")
+    # if save: fig.savefig(f"{signalPreset}.png")

@@ -15,7 +15,7 @@ from typing import Literal
 # si l'algorithme réussit tout ca on admet qu'il fonctionne
 
 
-def creationSignauxTest(duree: float,
+def creationSignauxTest(dureeSecondes: float,
                         samplerate: int,
                         presetSignal: Literal["diapason",
                                             "cordeIdeale",
@@ -24,12 +24,35 @@ def creationSignauxTest(duree: float,
                                             "guitareModesDoubles", 
                                             "guitareBruit"]
                         ) -> np.ndarray:
+    """Fonction créant les signaux de synthèse pour les test de l'algorithme
+
+    Args:
+        dureeSecondes (float): 
+
+        samplerate (int): fréquence d'échantillonnage
+
+        presetSignal (str): 
+            diapason : simple diapason
+            
+            cordeIdeale : corde idéale (somme de sinusoide)   
+            
+            guitareSimulee :guitare simulée (ajout d'une enveloppe d'amplitude exponentielle)
+            
+            guitareCorps : guitare simulée + modes de corps
+            
+            guitareModesDoubles : guitare simulée + modes doubles 
+            
+            guitareBruit : guitareModesDoubles + bruit
+
+    Returns:
+        np.ndarray: signal synthétisé
+    """
     
     preDelay = 50 #ms
     prePad = np.zeros(int(0.001*50*samplerate))
 
-    duree = duree - 0.001* preDelay
-    t = np.arange(0, duree, 1/samplerate)
+    dureeSecondes = dureeSecondes - 0.001* preDelay
+    t = np.arange(0, dureeSecondes, 1/samplerate)
 
     diapason: int = 440 #Hz
     freqMiGrave: float = 82.0 #Hz

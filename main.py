@@ -71,7 +71,7 @@ def main(argv: list[str]) -> None:
     # Export en json des matrices 
     if argvPreset == "json": 
         matrices.export(signal, params.samplerate, 
-                        params.exportfolder)
+                        params.exportFolder)
 
     # affichage
     if afficher:

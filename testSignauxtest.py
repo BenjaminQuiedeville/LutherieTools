@@ -6,7 +6,7 @@ samplerate = 44100
 preset = "sinusAleatoires"
 NFFT = 8192
 
-t, signal = creationSignauxTest(duree= 0.5,
+t, signal = creationSignauxTest(dureeSecondes= 0.5,
                         samplerate=samplerate,
                         presetSignal="guitareSimulee")
 

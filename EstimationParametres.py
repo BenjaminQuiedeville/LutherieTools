@@ -19,7 +19,7 @@ def ESTER(W: np.ndarray, nbPolesMax: int) -> np.ndarray:
     return J
     
 
-def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple[np.ndarray, np.ndarray]:
+def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple:
     """
     Appel de l'algorithme ESPRIT pour la détermination des paramêtres du signal
     Appelle également l'algorithme d'estimation ESTER pour déterminer l'ordre du modèle
@@ -29,7 +29,7 @@ def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple[np.ndarray, np.ndarray]:
         nbPoles (int): nombre de pôles à déterminer
 
     Returns:
-        np.ndarray, np.ndarray: les matrices Z (ESPRIT) et J (ESTER)
+        tuple: les matrices Z (ESPRIT) et J (ESTER)
     """    
     # contient également l'implémentation du critère ESTER 
     
@@ -56,10 +56,32 @@ def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple[np.ndarray, np.ndarray]:
     return Z, J
 
 
-def parametersEstimation(signal: np.ndarray, 
-                        samplerate: int, 
-                        nbPoles: int
-                        ) -> dict:
+def parametersEstimation(signal: np.ndarray, samplerate: int, 
+                        nbPoles: int) -> dict:
+    """Execute l'estimation de paramêtres pour la fenêtre de signal considérée. 
+
+    Args:
+        signal (np.ndarray): fenêtre sur laquelle estimer les paramêtres
+        samplerate (int): fréquence d'échantillonnage
+        nbPoles (int): nombre de pôle à calculer
+
+    Returns:
+        dict: Dictionnaire contenant les fréquences, amplitudes, amortissements et les résultats de ESTER.
+    """
+
+    def leastSquares(poles: np.ndarray, signal: np.ndarray) -> np.ndarray:
+        """Détermine la valeurs des amplitudes des poles par la méthodes des moindres carrés"""
+        return pinv(vandermonde(poles, signal.size), 
+                    check_finite = False
+                    ) @ signal
+
+
+    def vandermonde(poles: np.ndarray, size: int) -> np.ndarray:
+        """Calcule la matrice de vandermonde pour un nombre de pôles {nbPoles} donné et une longueur de signal {size} donnée"""
+        return np.nan_to_num(
+            np.exp(np.arange(0, size)[:, np.newaxis] 
+                @ np.log(poles[:, np.newaxis]).T)
+            )
 
 
     poles, J = ESPRIT(signal, 2*nbPoles)
@@ -90,16 +112,3 @@ def parametersEstimation(signal: np.ndarray,
     maxJ = np.ceil(np.nan_to_num(J, posinf=0.0).argmax())
 
     return {"f": f, "b": b, "ksi": ksi, "J": maxJ}
-
-
-def leastSquares(vecPoles: np.ndarray, signal: np.ndarray) -> np.ndarray:
-    return pinv(vandermonde(vecPoles, signal.size), 
-                check_finite = False
-                ) @ signal
-
-
-def vandermonde(poles: np.ndarray, size: int) -> np.ndarray:
-    return np.nan_to_num(
-        np.exp(np.arange(0, size)[:, np.newaxis] 
-            @ np.log(poles[:, np.newaxis]).T)
-        )

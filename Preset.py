@@ -63,7 +63,7 @@ def preset(creationPreset: str,
         params.horizon = argsDict["horizon"]
         params.overlap = argsDict["overlap"]
         params.nbPoles = argsDict["nbPoles"]
-        params.exportfolder = "export_" + argsDict["exportfolder"]
+        params.exportFolder = "export_" + argsDict["exportfolder"]
             
 
     signal, params = preparation(signal, params)

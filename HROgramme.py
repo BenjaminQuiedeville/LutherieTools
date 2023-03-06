@@ -1,5 +1,4 @@
 import numpy as np
-from copy import deepcopy
 
 from EstimationParametres import parametersEstimation
 from Classes import Params, Matrices 
@@ -7,6 +6,8 @@ from Stability import stability
 
 
 def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
+    """Fonction principale du programme, détermine les matrices de HROgrammes pour un signal {signal} donné et un jeu de paramêtres d'analyse {params}.
+    """
     
     seuil: int = -40 #(dB)
     # algorithme de stabilité
@@ -15,7 +16,6 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
 
     signalLengthInSamples: int = signal.size
     signalLengthInSeconds: float = signal.size/params.samplerate
-
     
     samplesPerHorizon: int = int(params.horizon * params.samplerate)
     samplesPerOverlap: int = int(samplesPerHorizon * params.overlap)
@@ -24,9 +24,9 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     numWindows: int = int(signalLengthInSamples/(samplesPerHorizon*(1 - params.overlap)))
     
     matrices = Matrices(params.nbPoles, numWindows)
-    
-    matrices.T = np.tile(np.linspace(0, signalLengthInSeconds, matrices.F.shape[1]), 
-                        (params.nbPoles, 1))
+    matrices.T = np.tile(
+        np.linspace(0, signalLengthInSeconds, matrices.F.shape[1]), 
+        (params.nbPoles, 1))
     
     print(f"taille de fenetre (samples) = {samplesPerHorizon}")
     print(f'nbFenetres = {numWindows}')
@@ -39,7 +39,7 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
         
         if (pointer + samplesPerHorizon) > signalLengthInSamples: break 
         
-        window: np.ndarray = deepcopy(signal[pointer : pointer + samplesPerHorizon])
+        window: np.ndarray = signal[pointer : pointer + samplesPerHorizon].copy()
         
         parametresEstimes = parametersEstimation(window, params.samplerate, 
                                                  params.nbPoles)

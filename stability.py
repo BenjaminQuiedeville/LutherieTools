@@ -1,53 +1,48 @@
 import numpy as np
-from copy import deepcopy
 
-def stability(inMatrix: np.ndarray, numcolstoverify: int, 
-            tolerancePourcent: float) -> np.ndarray:
+def stability(inMatrix: np.ndarray, numColsToVerify: int, 
+              tolerancePourcent: float) -> np.ndarray:
+    """stability : parcourt la matrice des fréquences matrices.F pour vérifier la stabilité des modes utilisés. Pour chaque colonne et pour chaque mode, on cherche si le mode apparaît dans les {numColsToVerify} colonnes suivantes. Si le mode n'apparait pas dans toutes les colonnes vérifiées, on le remplace par np.NaN, sinon on le conserve.
+
+    isInIntervalle : 
+
+
+    Args:
+        inMatrix (np.ndarray): matrices des Fréquences
+        numColsToVerify (int): nombre de colonnes à vérifier
+        tolerancePourcent (float): tolérance pour la vérification en pourcents
+
+    Returns:
+        np.ndarray: la matrices des Fréquences apres vérification
+    """
+    def isValid(value: float, arrayToVerify: np.ndarray, 
+                tolerance: float) -> bool:
+        """isValid : compte le nombre de colonnes pour lesquelles isInInterval renvoie True, si le compte est égal au nombre de colonne à vérifier, renvoie True"""
+
+        return ((numcols := arrayToVerify.shape[1]) 
+            == np.sum([isInInterval(value, arrayToVerify[:, i], tolerance) 
+                      for i in range(numcols)]))
     
-    modesValides = []
+
+    def isInInterval(value: float, vector: np.ndarray, 
+                     tolerance: float) -> bool:
+        """Recherche si {value} apparait dans {vector} à {tolerance} près."""
+        return ((value >= vector - tolerance) 
+              & (value <= vector + tolerance)).any()
+
+
     numcols = inMatrix.shape[1]
-    outMatrix = deepcopy(inMatrix)
+    outMatrix = inMatrix.copy()
 
     for (rowIndex, colIndex), mode in np.ndenumerate(inMatrix):
 
         tolerance = mode * tolerancePourcent
-
-        # if mode in modesValides: 
-        #     continue 
         
-        if ((numcols - colIndex) > numcolstoverify 
-        and isValid(mode, inMatrix[:, (colIndex+1):numcolstoverify], tolerance)):
-
-            # modesValides.append(mode)
-            continue
-            
-        else: 
+        # on arrête la boucle avant la fin pour 
+        # éviter le dépacement hors de la matrice
+        if not ((numcols - colIndex) > numColsToVerify 
+            and isValid(mode, inMatrix[:, (colIndex+1):numColsToVerify], 
+                        tolerance)):
             outMatrix[rowIndex, colIndex] = np.nan
-
+                        
     return outMatrix
-
-
-def isValid(value: float, arrayToVerify: np.ndarray, tolerance: float) -> bool:
-
-    numcols: int = arrayToVerify.shape[1]
-    numOfValidCols: int = 0
-
-    for colIndex in range(numcols):
-
-        if isInInterval(value, arrayToVerify[:, colIndex], tolerance):
-            numOfValidCols += 1
-
-    return numOfValidCols == numcols
-
-    
-def isInInterval(value: float, vector: np.ndarray, tolerance: float) -> bool:
-
-    result: bool = False
-
-    for _, vectorelem in np.ndenumerate(vector):
-        if (value >= vectorelem - tolerance and 
-            value <= vectorelem + tolerance):
-
-            result = True
-
-    return result

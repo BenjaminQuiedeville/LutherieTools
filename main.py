@@ -1,10 +1,9 @@
-import numpy as np
+# import numpy as np
 import matplotlib.pyplot as plt
 from sys import argv
 from time import perf_counter
 
 from HROgramme import HROgramme
-import Fonctions
 from Preset import preset
 from Affichage import affichage
 
@@ -71,7 +70,7 @@ def main(argv: list[str]) -> None:
 
     # Export en json des matrices 
     if argvPreset == "json": 
-        Fonctions.export(signal, matrices, params.samplerate, 
+        matrices.export(signal, params.samplerate, 
                         params.exportfolder)
 
     # affichage

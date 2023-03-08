@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 from HROgramme import HROgramme
 import Preset
-from Affichage import affichage
+from Affichage import displayHROgramme
 
 
 
@@ -24,7 +24,7 @@ for signalPreset, titre in zip(listPreset, listTitres):
    
     plt.close("all")
 
-    affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
+    displayHROgramme(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
                 titre, "", True)
 
 

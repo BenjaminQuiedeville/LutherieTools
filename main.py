@@ -1,4 +1,3 @@
-# import numpy as np
 from sys import argv
 from time import perf_counter
 
@@ -14,8 +13,8 @@ def main(argv: list[str]) -> None:
     argvPreset: str = "sample"
     # "gen","sample" ou "json" 
     signalPreset: str = "guitareBruit"
-    # Envelope, battements, sinusAleatoires, diapason, cordeIdeale
-    # guitareSimulee, guitareCorps, guitareModesDoubles, guitareBruit
+    # Diapason, cordeIdeale, guitareSimulee, 
+    # guitareCorps, guitareModesDoubles, guitareBruit
 
     paramsPath: str = ''
     afficher: bool = True
@@ -27,13 +26,12 @@ def main(argv: list[str]) -> None:
         afficher = False    
 
     signal, params = preset(argvPreset, paramsPath, signalPreset)
-
-    # Process
-
     print(f"samplerate = {params.samplerate}")
     print(f"horizon = {params.horizon}")
     print(f"overlap = {params.overlap}")
     print(f"nbPoles = {params.nbPoles}")
+    print(f'duree du signal = {signal.size/params.samplerate :.2f}')
+
 
     # Calcul du HROgramme
     timeDebut = perf_counter()
@@ -70,27 +68,10 @@ def main(argv: list[str]) -> None:
 
     # affichage
     if afficher:
-        import matplotlib.pyplot as plt
-        from Affichage import affichage
-
-        plt.close("all")
-        NFFT: int = 4096
-        plt.figure(tight_layout = True, figsize = (8, 6))
-        plt.specgram(signal, NFFT = NFFT, 
-                     Fs = params.samplerate, noverlap = NFFT // 2)
-        plt.ylim([0, 1000])
-        plt.ylabel("Fréquence (Hz)")
-        plt.xlabel("Temps (s)")
-        plt.colorbar(label = "Amplitude (dB)")
-
-        # affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
-        #           "Amplitude (dB)", "sans critere", False)
+        from Affichage import display
+        display(signal, params.samplerate, matrices, 
+                signalPreset, "Stabilité", False)
         
-        affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
-                  "Amplitude (dB)", "Stabilité", False)
-        
-        plt.show(block = True)
-
 
 if __name__ == "__main__":
     main(argv)

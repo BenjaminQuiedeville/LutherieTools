@@ -32,8 +32,6 @@ def preset(creationPreset: str,
         tuple[np.ndarray, Params, str]:
         signal, params, exportfolder
     """    
-    signal: np.ndarray = np.array([])
-    
     params = Params()
 
     if creationPreset == "gen":

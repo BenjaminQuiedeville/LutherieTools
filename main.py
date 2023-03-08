@@ -1,30 +1,25 @@
 # import numpy as np
-import matplotlib.pyplot as plt
 from sys import argv
 from time import perf_counter
 
 from HROgramme import HROgramme
 from Preset import preset
-from Affichage import affichage
 
 # VERSION DE PYTHON > 3.9.2
 
-# tester les signaux tests
 # trouver des plages de variations pour les params d'étude
-# exporter un spectrogram pour afficher en fond 
-# dimension : 1500 pixels en largeur
 
 def main(argv: list[str]) -> None:
 
     argvPreset: str = "sample"
     # "gen","sample" ou "json" 
-    signalPreset: str = "uduDiapo"
+    signalPreset: str = "guitareBruit"
     # Envelope, battements, sinusAleatoires, diapason, cordeIdeale
     # guitareSimulee, guitareCorps, guitareModesDoubles, guitareBruit
 
     paramsPath: str = ''
     afficher: bool = True
-    # forme d'appel : python mainHROgramme.py args.json 
+    # forme d'appel : python main.py args.json 
 
     if len(argv) > 1:
         paramsPath = argv[1]
@@ -75,7 +70,9 @@ def main(argv: list[str]) -> None:
 
     # affichage
     if afficher:
-        
+        import matplotlib.pyplot as plt
+        from Affichage import affichage
+
         plt.close("all")
         NFFT: int = 4096
         plt.figure(tight_layout = True, figsize = (8, 6))
@@ -86,13 +83,12 @@ def main(argv: list[str]) -> None:
         plt.xlabel("Temps (s)")
         plt.colorbar(label = "Amplitude (dB)")
 
-        affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
-                  "Amplitude (dB)", "sans critere", False)
-        
         # affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
-        #           "Amplitude (dB)", "Stabilité", False)
+        #           "Amplitude (dB)", "sans critere", False)
         
-    
+        affichage(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
+                  "Amplitude (dB)", "Stabilité", False)
+        
         plt.show(block = True)
 
 

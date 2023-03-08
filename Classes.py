@@ -72,13 +72,10 @@ class Matrices:
         self.Ksi[np.isnan(self.Ksi) or np.isinf(self.Ksi)] = 0
     
 
-    def export(self,
-            signal: np.ndarray,  
-            samplerate: int, 
-            exportFolder: str
-            ) -> None:
+    def export(self,signal: np.ndarray,  samplerate: int, 
+                exportFolder: str) -> None:
         """Exporte les matrices des résultats dans un fichier JSON. """
-        
+
         def spectrogramme(signal: np.ndarray, samplerate: int) -> Figure:
 
             nfft = 1024

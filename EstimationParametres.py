@@ -56,8 +56,8 @@ def ESPRIT(signal: np.ndarray, nbPoles: int) -> tuple:
     return Z, J
 
 
-def parametersEstimation(signal: np.ndarray, samplerate: int, 
-                        nbPoles: int) -> dict:
+def estimation(signal: np.ndarray, samplerate: int, 
+                nbPoles: int) -> dict:
     """Execute l'estimation de paramêtres pour la fenêtre de signal considérée. 
 
     Args:
@@ -68,7 +68,6 @@ def parametersEstimation(signal: np.ndarray, samplerate: int,
     Returns:
         dict: Dictionnaire contenant les fréquences, amplitudes, amortissements et les résultats de ESTER.
     """
-
     def leastSquares(poles: np.ndarray, signal: np.ndarray) -> np.ndarray:
         """Détermine la valeurs des amplitudes des poles par la méthodes des moindres carrés"""
         return pinv(vandermonde(poles, signal.size), 
@@ -80,8 +79,7 @@ def parametersEstimation(signal: np.ndarray, samplerate: int,
         """Calcule la matrice de vandermonde pour un nombre de pôles {nbPoles} donné et une longueur de signal {size} donnée"""
         return np.nan_to_num(
             np.exp(np.arange(0, size)[:, np.newaxis] 
-                @ np.log(poles[:, np.newaxis]).T)
-            )
+                @ np.log(poles[:, np.newaxis]).T))
 
 
     poles, J = ESPRIT(signal, 2*nbPoles)

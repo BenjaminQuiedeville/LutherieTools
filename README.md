@@ -6,6 +6,10 @@ Ces algotirhmes fonctionnent avec python >= 3.9.
 
 Arguments optionnels de ligne de commandes : args.json. Spécifie le nom du fichier de paramètres à utiliser pour les algorithmes.
 
+Une version alternative écrite sous [Matlab ](https://github.com/BenjaminQuiedeville/LutherieToolsMatlab)est disponible. Le code de l'application de l'application est disponible dans un dépot [Github ](https://github.com/ideesculture/lutherietools)de Gautier MICHELIN
+
+
+# Fichiers
 
 HROgramme.py : Comprend la fonction principale de tout le procédé. Initialise les matrices de résultats, découpe le signal en fenêtres temporelles et executes les algorithmes de EstimationParametres.py.
 

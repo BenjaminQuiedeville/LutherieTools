@@ -1,6 +1,6 @@
 import numpy as np
 
-from EstimationParametres import parametersEstimation
+from EstimationParametres import estimation
 from Classes import Params, Matrices 
 from Stability import stability
 
@@ -11,8 +11,8 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
     
     seuil: int = -40 #(dB)
     # algorithme de stabilité
-    toleranceStabilite = 0.01 
-    numColsToVerify = 3
+    toleranceStabilite = 0.5 
+    numColsToVerify = 2
 
     signalLengthInSamples: int = signal.size
     signalLengthInSeconds: float = signal.size/params.samplerate
@@ -41,7 +41,7 @@ def HROgramme(signal: np.ndarray, params: Params) -> Matrices:
         
         window: np.ndarray = signal[pointer : pointer + samplesPerHorizon].copy()
         
-        parametresEstimes = parametersEstimation(window, params.samplerate, 
+        parametresEstimes = estimation(window, params.samplerate, 
                                                  params.nbPoles)
         matrices.F[:, k] = parametresEstimes["f"]
         matrices.B[:, k] = parametresEstimes["b"] 

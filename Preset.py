@@ -16,7 +16,7 @@ def preset(creationPreset: str,
                                  "guitareCorps",
                                  "guitareModesDoubles", 
                                  "guitareBruit"]
-           ) -> tuple[np.ndarray, Params, str]:
+           ) -> tuple[np.ndarray, Params]:
     """
     Fonction déterminant quel signal et paramètres on utilisera : 
     - "gen" : signal généré
@@ -65,7 +65,6 @@ def preset(creationPreset: str,
             
 
     signal, params = preparation(signal, params)
-    print(f'duree du signal = {signal.size/params.samplerate :.2f}')
 
     return signal, params
 

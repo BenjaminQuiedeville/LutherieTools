@@ -5,27 +5,23 @@ from HROgramme import HROgramme
 import Preset
 from Affichage import displayHROgramme
 
-
+"""Script itérants sur différents signaux déterminé
+"""
 
 listPreset = ["diapason", "cordeIdeale", "guitareSimulee", 
               "guitareCorps", "guitareModesDoubles", "guitareBruit"]
 
-listTitres = ["Diapason", "Corde idéale", "Guitare Simulée", 
-              "Guitare avec modes de corps",
-              "Guitare avec modes de corde doubles", 
-              "Guitare avec bruit"]
 
-for signalPreset, titre in zip(listPreset, listTitres):
+for signalPreset in listPreset:
 
     signal, params = Preset.preset("sample", "", signalPreset)
 
     print(f"preset : {signalPreset}")
     matrices = HROgramme(signal, params)
    
-    plt.close("all")
 
     displayHROgramme(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
-                titre, "", True)
+                signalPreset, "", False)
 
 
-# plt.show(block = True)
+plt.show(block = True)

@@ -20,8 +20,8 @@ for signalPreset in listPreset:
     matrices = HROgramme(signal, params)
    
 
-    displayHROgramme(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, 
-                signalPreset, "", False)
+    displayHROgramme(matrices.FStable, matrices.BSeuil, matrices.T, signalPreset, "", False)
 
+    plt.show(block = False)
 
 plt.show(block = True)

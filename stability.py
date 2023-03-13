@@ -23,10 +23,11 @@ def stability(inMatrix: np.ndarray, numColsToVerify: int,
     # puis si le isValid renvoie True 
     # sinon le mode devient np.NaN
     # et ce pour tous les modes
-    return [inMatrix[row, col] 
-                if ((inMatrix.shape[1] - col) > numColsToVerify
-                and isValid(mode, 
-                            inMatrix[:, (col+1):(col+numColsToVerify+1)],
-                            mode * tolerancePourcent))
-                else np.NaN
-                for (row, col), mode in np.ndenumerate(inMatrix)]
+    return np.array([
+        mode 
+        if ((inMatrix.shape[1] - col) > numColsToVerify
+        and isValid(mode, 
+                    inMatrix[:, (col+1):(col+numColsToVerify+1)],
+                    mode * tolerancePourcent))
+        else np.NaN
+        for (row, col), mode in np.ndenumerate(inMatrix)])
